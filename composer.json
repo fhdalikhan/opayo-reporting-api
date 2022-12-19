@@ -1,0 +1,21 @@
+{
+    "name": "i3/opayo-reporting-api",
+    "description": "Used to connect to Opayo Reporting API",
+    "type": "library",
+    "require": {
+        "guzzlehttp/guzzle": "^6.0"
+    },
+    "license": "GPL",
+    "autoload": {
+        "psr-4": {
+            "I3\\OpayoReportingApi\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Fahad Ali Khan",
+            "email": "fahad.khan@i3media.net"
+        }
+    ],
+    "minimum-stability": "dev"
+}
