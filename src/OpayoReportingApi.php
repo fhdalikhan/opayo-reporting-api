@@ -10,10 +10,10 @@ abstract class OpayoReportingApi
 {
     public const LIVE_URL = 'https://live.sagepay.com/access/access.htm';
     public const SANDBOX_URL = 'https://test.sagepay.com/access/access.htm';
-    public array $elements = [];
-    protected Client $client;
-    private string $mode;
-    private string $password;
+    public $elements = [];
+    protected $client;
+    private $mode;
+    private $password;
 
     public function __construct()
     {

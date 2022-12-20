@@ -10,7 +10,7 @@ use XMLWriter;
 class GetBatchList extends OpayoReportingApi
 {
     const FIFTY = 50;
-    private GetBatchDetail $getBatchDetailApi;
+    private $getBatchDetailApi;
 
     public function __construct(array $args)
     {
