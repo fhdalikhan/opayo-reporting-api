@@ -105,12 +105,12 @@ abstract class OpayoReportingApi
 
     public function getStartDate()
     {
-        return (new DateTimeImmutable())->modify('-1 day')->setTime(0, 0, 0)->format('d/m/Y H:i:s');
+        return (new DateTimeImmutable())->modify('-3 day')->setTime(0, 0, 0)->format('d/m/Y H:i:s');
     }
 
     public function getEndDate()
     {
-        return (new DateTimeImmutable())->modify('-1 day')->setTime(23, 59, 59)->format('d/m/Y H:i:s');
+        return (new DateTimeImmutable())->modify('-3 day')->setTime(23, 59, 59)->format('d/m/Y H:i:s');
     }
 
     public function getSignature(array $elements)
