@@ -3,7 +3,7 @@
 namespace I3\OpayoReportingApi;
 
 use DateTimeImmutable;
-use FacebookAds\Exception\Exception;
+use Exception;
 use SimpleXMLElement;
 use XMLWriter;
 
@@ -29,8 +29,8 @@ class GetBatchList extends OpayoReportingApi
         $this->setCommand('getBatchList');
         $this->setVendor($args['vendor']);
         $this->setUser($args['user']);
-        $this->setStartDate($this->getStartDate()); // format is m/d/Y H:i:s // '01/12/2022 00:00:00'
-        $this->setEndDate($this->getEndDate()); // format is m/d/Y H:i:s // '13/12/2022 23:59:59'
+        $this->setStartDate($args['startDate'] ?? $this->getStartDate()); // format is m/d/Y H:i:s // '01/12/2022 00:00:00'
+        $this->setEndDate($args['endDate'] ?? $this->getEndDate()); // format is m/d/Y H:i:s // '13/12/2022 23:59:59'
         $this->setPassword($args['password']);
         $this->setSignature($this->getSignature($this->elements));
 
