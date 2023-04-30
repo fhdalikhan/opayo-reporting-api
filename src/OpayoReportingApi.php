@@ -139,7 +139,7 @@ abstract class OpayoReportingApi
         return $xmlWriter->outputMemory();
     }
 
-    protected function getTransactionsFromResponse(GetBatchDetail $getBatchDetailApi, $startRow, $endRow, $settlementDate): array
+    protected function getTransactionsFromResponse(GetBatchDetail $getBatchDetailApi, $startRow, $endRow, $settlementDate, $batchId): array
     {
         $getBatchDetailApi->setStartRow($startRow);
         $getBatchDetailApi->setEndRow($endRow);
@@ -148,7 +148,16 @@ abstract class OpayoReportingApi
         $payments = [];
         foreach ((array) $response->transactions as $transactions){
             foreach ($transactions as $transaction){
-                $payments[(string) $transaction->vendortxcode] = $settlementDate;
+                if ((string) $transaction->refunded != 'NO'){
+                    continue;
+                }
+                $key = (string) $transaction->vendortxcode;
+                $payments[$key] = [
+                    'started' => DateTimeImmutable::createFromFormat('d/m/Y H:i:s.u', (string) $transaction->started, new \DateTimeZone('GMT'))->getTimestamp(),
+                    'completed' => $settlementDate,
+                    'vpstxid' => (string) $transaction->vpstxid,
+                    'batchid' => $batchId,
+                ];
             }
         }
 
