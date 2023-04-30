@@ -68,7 +68,7 @@ class GetBatchList extends OpayoReportingApi
             var_dump($batch);
             $batchId = (int) $batch->batchid;
             $authProcessorName = (string) $batch->authprocessorname;
-            $settlementDate = DateTimeImmutable::createFromFormat('d/m/Y H:i:s.u', (string) $batch->completed)->getTimestamp();
+            $settlementDate = DateTimeImmutable::createFromFormat('d/m/Y H:i:s.u', (string) $batch->completed, new \DateTimeZone('GMT'))->getTimestamp();
             $this->getBatchDetailApi->setBatchId($batchId);
             $this->getBatchDetailApi->setAuthProcessor($authProcessorName);
 
@@ -83,12 +83,12 @@ class GetBatchList extends OpayoReportingApi
                         $startRow = $chunk[0];
                         $endRow = $chunk[$chunkCount-1];
                         var_dump('chunkcount is :', $chunkCount, $startRow, $endRow);
-                        $rows = $this->getTransactionsFromResponse($this->getBatchDetailApi, $startRow, $endRow, $settlementDate);
-                        $payments = array_merge($payments, $rows);
+                        $rows = $this->getTransactionsFromResponse($this->getBatchDetailApi, $startRow, $endRow, $settlementDate, $batchId);
+                        $payments = $payments + $rows;
                     }
                 } else {
-                    $rows = $this->getTransactionsFromResponse($this->getBatchDetailApi, 0, self::FIFTY, $settlementDate);
-                    $payments = array_merge($payments, $rows);
+                    $rows = $this->getTransactionsFromResponse($this->getBatchDetailApi, 0, self::FIFTY, $settlementDate, $batchId);
+                    $payments = $payments + $rows;
                 }
             }
         }
