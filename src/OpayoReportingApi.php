@@ -153,7 +153,7 @@ abstract class OpayoReportingApi
                 }
                 $key = (string) $transaction->vendortxcode;
                 $payments[$key] = [
-                    'started' => DateTimeImmutable::createFromFormat('d/m/Y H:i:s.u', (string) $transaction->started, new \DateTimeZone('GMT'))->getTimestamp(),
+                    'started' => DateTimeImmutable::createFromFormat('d/m/Y H:i:s.u', (string) $transaction->started, new \DateTimeZone('Europe/London'))->getTimestamp(),
                     'completed' => $settlementDate,
                     'vpstxid' => (string) $transaction->vpstxid,
                     'batchid' => $batchId,

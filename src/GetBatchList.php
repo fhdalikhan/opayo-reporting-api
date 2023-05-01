@@ -68,7 +68,7 @@ class GetBatchList extends OpayoReportingApi
             var_dump($batch);
             $batchId = (int) $batch->batchid;
             $authProcessorName = (string) $batch->authprocessorname;
-            $settlementDate = DateTimeImmutable::createFromFormat('d/m/Y H:i:s.u', (string) $batch->completed, new \DateTimeZone('GMT'))->getTimestamp();
+            $settlementDate = DateTimeImmutable::createFromFormat('d/m/Y H:i:s.u', (string) $batch->completed, new \DateTimeZone('Europe/London'))->getTimestamp();
             $this->getBatchDetailApi->setBatchId($batchId);
             $this->getBatchDetailApi->setAuthProcessor($authProcessorName);
 
