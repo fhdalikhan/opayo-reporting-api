@@ -147,6 +147,20 @@ abstract class OpayoReportingApi
         $response = $getBatchDetailApi->send();
         $payments = [];
         foreach ((array) $response->transactions as $transactions){
+            if (is_object($transactions)){
+                $transaction = $transactions;
+                if ((string) $transaction->refunded != 'NO'){
+                    continue;
+                }
+                $key = (string) $transaction->vendortxcode;
+                 $payments[$key] = [
+                    'started' => DateTimeImmutable::createFromFormat('d/m/Y H:i:s.u', (string) $transaction->started, new \DateTimeZone('Europe/London'))->getTimestamp(),
+                    'completed' => $settlementDate,
+                    'vpstxid' => (string) $transaction->vpstxid,
+                    'batchid' => $batchId,
+                ];
+                return $payments;
+            }
             foreach ($transactions as $transaction){
                 if ((string) $transaction->refunded != 'NO'){
                     continue;
