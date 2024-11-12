@@ -72,9 +72,21 @@ class GetBatchList extends OpayoReportingApi
             $this->getBatchDetailApi->setBatchId($batchId);
             $this->getBatchDetailApi->setAuthProcessor($authProcessorName);
 
-            foreach ($batch->transactiongroups as $transactiongroupElement) {
-                $transactiongroup = $transactiongroupElement->transactiongroup;
-                $numberOfTransactions = (int) $transactiongroup->paymentnumber[0];
+            $transactiongroups = (array) $batch->transactiongroups;
+            $numberOfTransactions = 0;
+
+            # if not an array, then wrap it in one
+            $transactiongroups['transactiongroup'] = !is_array($transactiongroups['transactiongroup']) ? [$transactiongroups['transactiongroup']] : $transactiongroups['transactiongroup'];
+
+            foreach ($transactiongroups['transactiongroup'] as $transactiongroup) {
+                # find out the total number of payments in this batch,
+                # by adding payments from all currencies
+                $numberOfTransactions += (int) $transactiongroup->paymentnumber;
+            }
+
+//            foreach ($batch->transactiongroups as $transactiongroupElement) {
+//                $transactiongroup = $transactiongroupElement->transactiongroup;
+//                $numberOfTransactions = (int) $transactiongroup->paymentnumber[0];
                 var_dump('numberoftransactions are :', $numberOfTransactions);
                 if ($numberOfTransactions > self::FIFTY) {
                     $transactionChunks = array_chunk(range(1, $numberOfTransactions), self::FIFTY);
@@ -90,7 +102,7 @@ class GetBatchList extends OpayoReportingApi
                     $rows = $this->getTransactionsFromResponse($this->getBatchDetailApi, 0, self::FIFTY, $settlementDate, $batchId);
                     $payments = $payments + $rows;
                 }
-            }
+//            }
         }
 
         return $payments;
