@@ -8,8 +8,8 @@ use XMLWriter;
 
 abstract class OpayoReportingApi
 {
-    public const LIVE_URL = 'https://live.sagepay.com/access/access.htm';
-    public const SANDBOX_URL = 'https://test.sagepay.com/access/access.htm';
+    public const LIVE_URL = 'https://live.opayo.eu.elavon.com/access/access.htm';
+    public const SANDBOX_URL = 'https://sandbox.opayo.eu.elavon.com/access/access.htm';
     public $elements = [];
     protected $client;
     private $mode;
